@@ -16,7 +16,7 @@ namespace StatlerWaldorfCorp.TeamService.Persisistence
 
         public MemoryTeamRepository(ICollection<Team> teams)
         {
-            teams = teams;
+            MemoryTeamRepository.teams = teams;
         }
 
         public IEnumerable<Team> GetTeams() {
