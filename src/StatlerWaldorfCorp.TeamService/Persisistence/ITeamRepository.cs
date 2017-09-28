@@ -1,12 +1,16 @@
 using System.Collections.Generic;
 using StatlerWaldorfCorp.TeamService.Models;
+using System;
 
 namespace StatlerWaldorfCorp.TeamService.Persisistence
 {
     public interface ITeamRepository
     {
         IEnumerable<Team> GetTeams();
-        void AddTeam(Team team);
+
+        Team AddTeam(Team team);
+        Team Get(Guid id);
+
         
     }
 }

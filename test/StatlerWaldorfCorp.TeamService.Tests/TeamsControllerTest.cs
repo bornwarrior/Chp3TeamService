@@ -53,5 +53,20 @@ namespace StatlerWaldorfCorp.TeamService.Tests
 
             Assert.NotNull(sampleTeam);
         }   
+
+        [Fact]
+        public void CreateMemberstoNonexisitantTeamReturnsNotFound()
+        {
+            ITeamRepository repository = new TestMemoryTeamRepository();
+            MembersController controller = new MembersController(repository);
+
+            Guid teamId = Guid.NewGuid();
+
+            Guid newMemberId = Guid.NewGuid();
+            Member newMember = new Member(newMemberId);
+            var result = controller.CreateMember(newMember, teamId);
+
+            Assert.True(result is NotFoundResult);
+        }
     }
 }
