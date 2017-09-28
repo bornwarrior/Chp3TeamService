@@ -26,32 +26,32 @@ namespace StatlerWaldorfCorp.TeamService.Tests
             Assert.Equal(teams[1].Name, "two");
         }
 
-        // [Fact]
-        // public  void CreateTeamAddsTeamToList()
-        // {
-        //     ITeamRepository repository = new  TestMemoryTeamRepository();
-        //     TeamsController controller = new TeamsController(repository);
-        //     var teams = (IEnumerable<Team>)
-        //      (controller.GetAllTeams() as ObjectResult).Value;
-        //     List<Team> original = new List<Team>(teams);
+        [Fact]
+        public  void CreateTeamAddsTeamToList()
+        {
+            ITeamRepository repository = new  TestMemoryTeamRepository();
+            TeamsController controller = new TeamsController(repository);
+            var teams = (IEnumerable<Team>)
+             (controller.GetAllTeams() as ObjectResult).Value;
+            List<Team> original = new List<Team>(teams);
 
-        //     Team t = new Team("sample");
-        //     var result = controller.CreateTeam(t);
-        //     Assert.Equal((result as ObjectResult).StatusCode, 201);
+            Team t = new Team("sample");
+            var result = controller.CreateTeam(t);
+            Assert.Equal((result as ObjectResult).StatusCode, 201);
 
-        //     var newTeamsRaw =
-        //     (IEnumerable<Team>)
-        //         (controller.GetAllTeams() as ObjectResult).Value;
+            var newTeamsRaw =
+            (IEnumerable<Team>)
+                (controller.GetAllTeams() as ObjectResult).Value;
 
-        //     List<Team> newTeams = new List<Team>(newTeamsRaw);
-        //     Assert.Equal(newTeams.Count, original.Count + 1);
+            List<Team> newTeams = new List<Team>(newTeamsRaw);
+            Assert.Equal(newTeams.Count, original.Count + 1);
 
-        //     var sampleTeam = 
-        //         newTeams.FirstOrDefault(
-        //             target => target.Name == "sample");
+            var sampleTeam = 
+                newTeams.FirstOrDefault(
+                    target => target.Name == "sample");
 
 
-        //     Assert.NotNull(sampleTeam);
-        // }   
+            Assert.NotNull(sampleTeam);
+        }   
     }
 }
