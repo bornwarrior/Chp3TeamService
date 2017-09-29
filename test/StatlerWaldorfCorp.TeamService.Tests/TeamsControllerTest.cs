@@ -39,7 +39,16 @@ namespace StatlerWaldorfCorp.TeamService.Tests
             Assert.Equal(sampleName, retrievedTeam.Name);
             Assert.Equal(retrievedTeam.ID, id);
         }
+        
+        [Fact]
+        public void GetNonExistentTeamReturnsNotFound()
+        {
+            TeamsController controller = new TeamsController(new TestMemoryTeamRepository());
 
+            Guid id = Guid.NewGuid();
+            var result = controller.GetTeam(id);
+            Assert.True(result is NotFoundResult);
+        }
         [Fact]
         public  void CreateTeamAddsTeamToList()
         {
