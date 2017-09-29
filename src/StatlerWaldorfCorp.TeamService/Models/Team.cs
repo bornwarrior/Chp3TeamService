@@ -21,11 +21,11 @@ namespace StatlerWaldorfCorp.TeamService.Models
         public Team(string name, Guid id) : this(name)
         {
             this.ID =id;
-            
         }
 
         public override string ToString(){
             return this.Name;
         }
+
     }
 }

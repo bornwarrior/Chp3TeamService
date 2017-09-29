@@ -25,7 +25,7 @@ namespace StatlerWaldorfCorp.TeamService.Persisistence
             return teams;
         }
 
-        public Team AddTeam(Team team)
+        public Team Team(Team team)
         {
             teams.Add(team);
             return team;
@@ -35,5 +35,11 @@ namespace StatlerWaldorfCorp.TeamService.Persisistence
         {
             return teams.FirstOrDefault( t => t.ID == id);
         } 
+
+        public Team Add(Team team)
+        {
+            teams.Add(team);
+            return team;
+        }
     }
 }

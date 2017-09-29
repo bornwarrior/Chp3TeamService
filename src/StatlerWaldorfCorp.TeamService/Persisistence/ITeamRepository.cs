@@ -8,9 +8,7 @@ namespace StatlerWaldorfCorp.TeamService.Persisistence
     {
         IEnumerable<Team> GetTeams();
 
-        Team AddTeam(Team team);
+        Team Add(Team team);
         Team Get(Guid id);
-
-        
     }
 }

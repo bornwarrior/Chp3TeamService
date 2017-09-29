@@ -25,6 +25,20 @@ namespace StatlerWaldorfCorp.TeamService.Tests
             Assert.Equal(teams[0].Name, "one");
             Assert.Equal(teams[1].Name, "two");
         }
+        [Fact]
+        public void GetTeamRetrievesTeam()
+        {
+            TeamsController controller = new TeamsController(new TestMemoryTeamRepository());
+
+            string sampleName = "sample";
+            Guid id = Guid.NewGuid();
+            Team sampleTeam = new Team(sampleName,id);
+            controller.CreateTeam(sampleTeam);
+
+            Team retrievedTeam = (Team)(controller.GetTeam(id) as ObjectResult).Value;
+            Assert.Equal(sampleName, retrievedTeam.Name);
+            Assert.Equal(retrievedTeam.ID, id);
+        }
 
         [Fact]
         public  void CreateTeamAddsTeamToList()
@@ -68,5 +82,25 @@ namespace StatlerWaldorfCorp.TeamService.Tests
 
             Assert.True(result is NotFoundResult);
         }
+
+        // [Fact]
+        // public void GetExistingMemberReturnsMember()
+        // {
+        //     ITeamRepository repository = new TestMemoryTeamRepository();
+        //     MembersController controller = new MembersController(repository);
+
+        //     Guid teamId = Guid.NewGuid();
+        //     Team team = new Team("Test Team",teamId);
+        //     var debugTeam = repository.Add(team);
+
+        //     Guid memberId = Guid.NewGuid();
+        //     Member newMember = new Member(memberId);
+        //     newMember.FirstName = "Jim";
+        //     newMember.LastName = "Smith";
+        //     controller.CreateMember(newMember, teamId);
+
+        //     Member member = (Member)(controller.GetMember(teamId,memberId) as ObjectResult).Value;
+        //     Assert.Equal(newMember.ID, member.ID);
+        // }
     }
 }

@@ -28,10 +28,25 @@ namespace StatlerWaldorfCorp.TeamService
 
         }
 
+        [HttpGet]
+        public IActionResult GetTeam(Guid id)
+        {
+            Team team = repository.Get(id);
+
+            if(team != null)
+            {
+                return this.Ok(team);   
+            }
+            else
+            {
+                return this.NotFound();
+            }
+        }
+
         [HttpPost]
         public virtual IActionResult CreateTeam([FromBody]Team newTeam)
         {
-            repository.AddTeam(newTeam);
+            repository.Add(newTeam);
             
             return this.Created($"/teams/{newTeam.ID}",newTeam);
         }
