@@ -41,5 +41,32 @@ namespace StatlerWaldorfCorp.TeamService.Persisistence
             teams.Add(team);
             return team;
         }
+
+        public Team UpdateTeam(Team t)
+        {
+            Team team = this.Delete(t.ID);
+
+            if(team != null)
+            {
+                team = this.Add(t);
+            }
+
+            return team;
+        }
+
+        public Team Delete(Guid id)
+        {
+            var q = teams.Where(t => t.ID == id);
+            Team team = null;
+
+            if(q.Count() > 0)
+            {
+                team = q.First();
+                teams.Remove(team);
+            }
+
+            return team;
+
+        }
     }
 }

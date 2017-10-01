@@ -49,6 +49,7 @@ namespace StatlerWaldorfCorp.TeamService.Tests
             var result = controller.GetTeam(id);
             Assert.True(result is NotFoundResult);
         }
+
         [Fact]
         public  void CreateTeamAddsTeamToList()
         {
@@ -78,19 +79,101 @@ namespace StatlerWaldorfCorp.TeamService.Tests
         }   
 
         [Fact]
-        public void CreateMemberstoNonexisitantTeamReturnsNotFound()
+        public void UpdateTeamModifiesTeamToList()
         {
-            ITeamRepository repository = new TestMemoryTeamRepository();
-            MembersController controller = new MembersController(repository);
+            TeamsController controller = new TeamsController(new TestMemoryTeamRepository());
+            var teams = (IEnumerable<Team>)(controller.GetAllTeams() as ObjectResult).Value;
+            List<Team> original = new List<Team>(teams);
 
-            Guid teamId = Guid.NewGuid();
+            Guid id = Guid.NewGuid();
+            Team t = new Team("sample",id);
+            var result = controller.CreateTeam(t);
 
-            Guid newMemberId = Guid.NewGuid();
-            Member newMember = new Member(newMemberId);
-            var result = controller.CreateMember(newMember, teamId);
+            Team newTeam = new Team("sample2", id);
+            controller.UpdateTeam(newTeam, id);
+
+            var newTeamsRaw = (IEnumerable<Team>)(controller.GetAllTeams() as ObjectResult).Value;
+            List<Team> newTeams = new List<Team>(newTeamsRaw);
+            var sampleTeam = newTeams.FirstOrDefault( target => target.Name == "sample");
+            Assert.Null(sampleTeam); // sample is updated so should be null
+
+            Team retrievedTeam = (Team)(controller.GetTeam(id) as ObjectResult).Value;
+            Assert.Equal("sample2", retrievedTeam.Name);
+
+        }
+
+        [Fact]
+        public void UpdateNonExistentTeamReturnsNotFound()
+        {
+            TeamsController controller = new TeamsController(new TestMemoryTeamRepository());
+            var teams =(IEnumerable<Team>)(controller.GetAllTeams() as ObjectResult).Value;
+            List<Team> original = new List<Team>(teams);
+
+            Team someteam = new Team("Some Team", Guid.NewGuid());
+            controller.CreateTeam(someteam);
+
+            Guid newTeamId = Guid.NewGuid();
+            Team newTeam = new Team("new team", newTeamId);
+
+            var result = controller.UpdateTeam(newTeam, newTeamId);
 
             Assert.True(result is NotFoundResult);
+
+
+
+        }   
+
+        [Fact]
+        public void DeleteTeamRemovesFromList()
+        {
+            TeamsController controller = new TeamsController(new TestMemoryTeamRepository());
+            var teams = (IEnumerable<Team>)(controller.GetAllTeams() as ObjectResult).Value;
+            int ct = teams.Count();
+
+            string sampleName = "sample";
+            Guid id = Guid.NewGuid();
+            Team sampleTeam = new Team(sampleName, id);
+            controller.CreateTeam(sampleTeam);
+
+            
+            teams = (IEnumerable<Team>)(controller.GetAllTeams() as ObjectResult).Value;
+            sampleTeam = teams.FirstOrDefault(target => target.Name == sampleName);
+            Assert.NotNull(sampleTeam);
+
+            controller.DeleteTeam(id);
+            teams = (IEnumerable<Team>)(controller.GetAllTeams() as ObjectResult).Value;
+            sampleTeam = teams.FirstOrDefault(target => target.Name == sampleName);
+            Assert.Null(sampleTeam);
+
         }
+
+        [Fact]
+        public void DeleteNonExistentTEamREturnsNotFound()
+        {
+            
+            TeamsController controller = new TeamsController(new TestMemoryTeamRepository());
+            Guid id = Guid.NewGuid();
+
+            var result = controller.DeleteTeam(id);
+            Assert.True(result is NotFoundResult);
+
+        }
+        // [Fact]
+        // public void CreateMemberstoNonexisitantTeamReturnsNotFound()
+        // {
+        //     ITeamRepository repository = new TestMemoryTeamRepository();
+        //     MembersController controller = new MembersController(repository);
+
+        //     Guid teamId = Guid.NewGuid();
+
+        //     Guid newMemberId = Guid.NewGuid();
+        //     Member newMember = new Member(newMemberId);
+        //     var result = controller.CreateMember(newMember, teamId);
+
+        //     Assert.True(result is NotFoundResult);
+        // }
+        
+
 
         // [Fact]
         // public void GetExistingMemberReturnsMember()

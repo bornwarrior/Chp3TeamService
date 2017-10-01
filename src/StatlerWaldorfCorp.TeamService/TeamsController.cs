@@ -50,5 +50,41 @@ namespace StatlerWaldorfCorp.TeamService
             
             return this.Created($"/teams/{newTeam.ID}",newTeam);
         }
+
+        [HttpPost]
+        public virtual IActionResult UpdateTeam([FromBody]Team  team, Guid id)
+        {
+            team.ID = id;
+            if(repository.UpdateTeam(team) == null) {
+                return this.NotFound();
+            }
+            else
+            {
+                return this.Ok(team);
+            }
+        }
+
+        [HttpGet]
+
+        public virtual IActionResult DeleteTeam(Guid id)
+        {            
+            Team team = repository.Get(id);
+
+            if(team == null)
+            {
+                return this.NotFound();
+            }
+            else
+            {
+                repository.Delete(id);
+                return this.Ok();
+            }
+
+
+        }
+
+
+
+
     }
 }
