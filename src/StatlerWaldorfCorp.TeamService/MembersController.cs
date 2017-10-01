@@ -29,6 +29,31 @@ namespace StatlerWaldorfCorp.TeamService
             }
         }
 
+        [HttpGet]
+        [Route("/teams/{teamId}/[controller]/{memberId}")]
+        public virtual IActionResult GetMember(Guid teamID, Guid memberId)
+        {
+            Team team = repository.Get(teamID);
+            if(team == null)
+            {
+                return this.NotFound();
+            }
+            else
+            {
+                var q = team.Members.Where(m => m.ID == memberId);
+                if(q.Count() < 1)
+                {
+                    return this.NotFound();
+                }
+                else
+                {
+                    return this.Ok(q.First());
+                }
+                
+            }
+        }
+
+
         [HttpPost]
         public virtual IActionResult CreateMember([FromBody]Member newMember, Guid teamID)
         {
