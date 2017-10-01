@@ -65,5 +65,51 @@ namespace StatlerWaldorfCorp.TeamService
             Assert.Equal(newMember.ID, member.ID);
         }
 
+        [Fact]
+        public void GetMembersREturnsMembers()
+        {
+            ITeamRepository repository = new TestMemoryTeamRepository();
+            MembersController controller = new MembersController(repository);
+
+            Guid teamId = Guid.NewGuid();
+            Team team = new Team("TestTeam", teamId);
+            var debugTeam = repository.Add(team);
+
+            Guid firstMemberId = Guid.NewGuid();
+            Member newMember = new Member(firstMemberId);
+            newMember.FirstName = "Jim";
+            newMember.LastName = "Smith";
+            controller.CreateMember(newMember, teamId);
+
+            Guid secondMemeberId  = Guid.NewGuid();
+            newMember = new Member(secondMemeberId);
+            newMember.FirstName = "John";
+            newMember.LastName = "Doe";
+            controller.CreateMember(newMember,teamId);
+
+
+            ICollection<Member> memebers = (ICollection<Member>)(controller.GetMember(teamId) as ObjectResult).Value;
+            Assert.Equal(2, memebers.Count);
+            Assert.NotNull(memebers.Where( m => m.ID == firstMemberId).First().ID);
+            Assert.NotNull(memebers.Where( m => m.ID == secondMemeberId).First().ID);
+        }
+
+        [Fact]
+        public void GetMembersForNewTeamIsEmpty()
+        {
+
+            ITeamRepository repository = new TestMemoryTeamRepository();
+            MembersController controller = new MembersController(repository);
+
+            Guid teamId = Guid.NewGuid();
+            Team team = new Team("TestTeam", teamId);
+
+            var debugTeam = repository.Add(team);
+
+            ICollection<Member> members = (ICollection<Member>)(controller.GetMember(teamId) as ObjectResult).Value;
+            Assert.Empty(members);
+
+        }
+
     }
 }
