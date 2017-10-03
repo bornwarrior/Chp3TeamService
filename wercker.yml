@@ -1,4 +1,4 @@
-box: microsoft/dotnet:-sdk
+box: microsoft/dotnet
 no-response-timeout: 10
 build:
   steps: 
