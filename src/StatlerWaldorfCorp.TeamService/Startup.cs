@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using StatlerWaldorfCorp.TeamService.Persisistence;
+using Microsoft.Extensions.Configuration;
 
 namespace  StatlerWaldorfCorp.TeamService
 {
@@ -12,20 +13,17 @@ namespace  StatlerWaldorfCorp.TeamService
       public Startup(IHostingEnvironment env)
       {
       }        
-       
-      public void Configure(IApplicationBuilder app, 
-        IHostingEnvironment env, ILoggerFactory loggerFactory)
+    
+      public IConfigurationRoot Configuration { get; }
+      public void ConfigureService(IServiceCollection services)
       {
-        app.Run(async (context) =>
-        {
-          await context.Response.WriteAsync("Hello, world!");
-        });
+          services.AddMvc();
+          services.AddScoped<ITeamRepository, MemoryTeamRepository>();
       }
 
-      public void ConfigureService(IServiceCollection service)
+      public void Configure(IApplicationBuilder app)
       {
-          service.AddMvc();
-          service.AddScoped<ITeamRepository, MemoryTeamRepository>();
+          app.UseMvc(); 
       }
   }   
 }
