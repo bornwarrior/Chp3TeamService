@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace StatlerWaldorfCorp.TeamService
 {
+    [Route("/teams/{teamId}/[controller]")]
     public class MembersController : Controller
     {
         ITeamRepository repository;
@@ -85,7 +86,7 @@ namespace StatlerWaldorfCorp.TeamService
         }
 
 
-        [HttpGet]
+        [HttpPut]
         [Route("/teams/{teamId}/[controller]/{memberId}")]
         public virtual IActionResult UpdateMember([FromBody]Member updateMember, Guid teamID, Guid memberId)
          {

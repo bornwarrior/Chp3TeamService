@@ -5,25 +5,26 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using StatlerWaldorfCorp.TeamService.Persisistence;
 using Microsoft.Extensions.Configuration;
+using StatlerWaldorfCorp.TeamService.Models;
 
-namespace  StatlerWaldorfCorp.TeamService
+namespace StatlerWaldorfCorp.TeamService
 {
-  public class Startup
-  {
-      public Startup(IHostingEnvironment env)
-      {
-      }        
-    
-      public IConfigurationRoot Configuration { get; }
-      public void ConfigureService(IServiceCollection services)
-      {
-          services.AddMvc();
-          services.AddScoped<ITeamRepository, MemoryTeamRepository>();
-      }
+    public class Startup
+    {
+        public Startup(IHostingEnvironment env)
+        {
+        }
 
-      public void Configure(IApplicationBuilder app)
-      {
-          app.UseMvc(); 
-      }
-  }   
+        public IConfigurationRoot Configuration { get; }
+        public void ConfigureService(IServiceCollection services)
+        {
+            services.AddMvc();
+            services.AddScoped<ITeamRepository, MemoryTeamRepository>();
+        }
+
+        public void Configure(IApplicationBuilder app)
+        {
+            app.UseMvc();
+        }
+    }
 }

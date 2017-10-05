@@ -21,40 +21,41 @@ namespace StatlerWaldorfCorp.TeamService.Tests.Integration
 
         public SimpleIntegrationTests()
         {
-           testServer = new TestServer(new WebHostBuilder().UseStartup<Startup>());
-           testClient = testServer.CreateClient();
+            testServer = new TestServer(new WebHostBuilder().UseStartup<Startup>());
+            testClient = testServer.CreateClient();
 
-           teamZombie = new Team {
-               ID = Guid.NewGuid(),
-               Name = "Zombie"
-           };
+            teamZombie = new Team
+            {
+                ID = Guid.NewGuid(),
+                Name = "Zombie"
+            };
         }
 
         [Fact]
         public async void TestTeamPostAndGet()
         {
-        //Given
-        StringContent stringContent = new StringContent(
-            JsonConvert.SerializeObject(teamZombie),
-            UnicodeEncoding.UTF8,
-            "applicaiton/json");
-        
-        //When
-        HttpResponseMessage postResponse = await testClient.PostAsync(
-            "/teams",
-            stringContent);
+            //Given
+            StringContent stringContent = new StringContent(
+                JsonConvert.SerializeObject(teamZombie),
+                UnicodeEncoding.UTF8,
+                "applicaiton/json");
 
-        postResponse.EnsureSuccessStatusCode();
+            //When
+            HttpResponseMessage postResponse = await testClient.PostAsync(
+                "/teams",
+                stringContent);
 
-        var getResponse = await testClient.GetAsync("/teams");
-        postResponse.EnsureSuccessStatusCode();
-        
-        //Then
-        string raw = await getResponse.Content.ReadAsStringAsync();
-        List<Team> teams = JsonConvert.DeserializeObject<List<Team>>(raw);
-        Assert.Equal(1, teams.Count);
-        Assert.Equal("Zombie",teams[0].Name);
-        Assert.Equal(teamZombie.ID,teams[0].ID);
-        }   
+            postResponse.EnsureSuccessStatusCode();
+
+            var getResponse = await testClient.GetAsync("/teams");
+            postResponse.EnsureSuccessStatusCode();
+
+            //Then
+            string raw = await getResponse.Content.ReadAsStringAsync();
+            List<Team> teams = JsonConvert.DeserializeObject<List<Team>>(raw);
+            Assert.Equal(1, teams.Count);
+            Assert.Equal("Zombie", teams[0].Name);
+            Assert.Equal(teamZombie.ID, teams[0].ID);
+        }
     }
 }

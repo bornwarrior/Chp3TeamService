@@ -10,6 +10,7 @@ using StatlerWaldorfCorp.TeamService.Persisistence;
 
 namespace StatlerWaldorfCorp.TeamService
 {
+    [Route("[controller]")]
     public class  TeamsController : Controller
     {
     
@@ -28,7 +29,7 @@ namespace StatlerWaldorfCorp.TeamService
 
         }
 
-        [HttpGet]
+        [HttpGet("{id}")]
         public IActionResult GetTeam(Guid id)
         {
             Team team = repository.Get(id);
@@ -51,7 +52,7 @@ namespace StatlerWaldorfCorp.TeamService
             return this.Created($"/teams/{newTeam.ID}",newTeam);
         }
 
-        [HttpPost]
+        [HttpPut("{id}")]
         public virtual IActionResult UpdateTeam([FromBody]Team  team, Guid id)
         {
             team.ID = id;
@@ -64,7 +65,7 @@ namespace StatlerWaldorfCorp.TeamService
             }
         }
 
-        [HttpGet]
+        [HttpDelete("{id}")]
 
         public virtual IActionResult DeleteTeam(Guid id)
         {            
@@ -79,12 +80,6 @@ namespace StatlerWaldorfCorp.TeamService
                 repository.Delete(id);
                 return this.Ok();
             }
-
-
         }
-
-
-
-
     }
 }

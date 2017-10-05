@@ -2,9 +2,11 @@ using System.Collections.Generic;
 using StatlerWaldorfCorp.TeamService.Models;
 using System;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 
 namespace StatlerWaldorfCorp.TeamService.Persisistence
 {
+    [Route("/teams/{teamId}/[controller]")]
     public class MemoryTeamRepository : ITeamRepository
     {
         protected static ICollection<Team> teams;
