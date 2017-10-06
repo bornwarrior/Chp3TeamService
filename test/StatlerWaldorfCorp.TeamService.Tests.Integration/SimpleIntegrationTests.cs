@@ -38,11 +38,15 @@ namespace StatlerWaldorfCorp.TeamService.Tests.Integration
             StringContent stringContent = new StringContent(
                 JsonConvert.SerializeObject(teamZombie),
                 UnicodeEncoding.UTF8,
-                "applicaiton/json");
+                "application/json");
 
             //When
             HttpResponseMessage postResponse = await testClient.PostAsync(
-                "/teams",
+                "/teams",          //  StringContent stringContent = new StringContent(
+            //    JsonConvert.SerializeObject(teamZombie),
+            //    UnicodeEncoding.UTF8,
+            //    "application/json");
+
                 stringContent);
 
             postResponse.EnsureSuccessStatusCode();
@@ -57,5 +61,6 @@ namespace StatlerWaldorfCorp.TeamService.Tests.Integration
             Assert.Equal("Zombie", teams[0].Name);
             Assert.Equal(teamZombie.ID, teams[0].ID);
         }
+
     }
 }
