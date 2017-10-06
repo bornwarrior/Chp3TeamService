@@ -16,7 +16,7 @@ namespace StatlerWaldorfCorp.TeamService
         }
 
         public IConfigurationRoot Configuration { get; }
-        public void ConfigureService(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
             services.AddScoped<ITeamRepository, MemoryTeamRepository>();
