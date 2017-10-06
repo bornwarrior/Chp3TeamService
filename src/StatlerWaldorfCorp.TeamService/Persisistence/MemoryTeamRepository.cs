@@ -6,14 +6,15 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace StatlerWaldorfCorp.TeamService.Persisistence
 {
-    [Route("/teams/{teamId}/[controller]")]
+    //    [Route("/teams/{teamId}/[controller]")]
     public class MemoryTeamRepository : ITeamRepository
     {
         protected static ICollection<Team> teams;
 
         public MemoryTeamRepository()
         {
-            if(teams == null) {
+            if (teams == null)
+            {
                 teams = new List<Team>();
             }
         }
@@ -23,7 +24,8 @@ namespace StatlerWaldorfCorp.TeamService.Persisistence
             MemoryTeamRepository.teams = teams;
         }
 
-        public IEnumerable<Team> GetTeams() {
+        public IEnumerable<Team> GetTeams()
+        {
             return teams;
         }
 
@@ -35,8 +37,8 @@ namespace StatlerWaldorfCorp.TeamService.Persisistence
 
         public Team Get(Guid id)
         {
-            return teams.FirstOrDefault( t => t.ID == id);
-        } 
+            return teams.FirstOrDefault(t => t.ID == id);
+        }
 
         public Team Add(Team team)
         {
@@ -48,7 +50,7 @@ namespace StatlerWaldorfCorp.TeamService.Persisistence
         {
             Team team = this.Delete(t.ID);
 
-            if(team != null)
+            if (team != null)
             {
                 team = this.Add(t);
             }
@@ -61,7 +63,7 @@ namespace StatlerWaldorfCorp.TeamService.Persisistence
             var q = teams.Where(t => t.ID == id);
             Team team = null;
 
-            if(q.Count() > 0)
+            if (q.Count() > 0)
             {
                 team = q.First();
                 teams.Remove(team);

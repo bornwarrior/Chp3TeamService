@@ -9,17 +9,17 @@ namespace StatlerWaldorfCorp.TeamService.Models
 
         public Member()
         {
-            
+
         }
-        public Member(Guid id) : this ()
+        public Member(Guid id) : this()
         {
             this.ID = id;
         }
 
-        public Member(string firstName, string lastName, Guid id) :this (id)
+        public Member(string firstName, string lastName, Guid id) : this(id)
         {
             this.FirstName = firstName;
-            this.LastName = lastName;   
+            this.LastName = lastName;
         }
     }
 }
