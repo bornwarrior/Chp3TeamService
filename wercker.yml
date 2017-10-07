@@ -59,5 +59,5 @@ deploy:
         username: $USERNAME
         password: $PASSWORD
         repository: bornwarrior/Chp3TeamService
-        registry: https://registry.hub.docker.com
+        registry: https://hub.docker.com
         entrypoint: "/pipeline/source/app/docker_entrypoint.sh"
